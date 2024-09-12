@@ -6,7 +6,6 @@ import { useRouter } from "next/router";
 import BackendAdapter from "@/helpers/adpter/backendAdapter";
 
 const adapter = new BackendAdapter("firebase", app);
-adapter.backend?.auth.useDeviceLanguage();
 
 export default function AdminSignIn() {
   const [email, setEmail] = useState("");
@@ -33,11 +32,7 @@ export default function AdminSignIn() {
     setLoading(true);
 
     if (ableToSignIn(email, password))
-      await adapter.backend?.signInWithEmail(email, password, {
-        shouldRedirect: true,
-        redirect: () => router.push("/admin/campaignSelect"),
-      });
-
+      await adapter.signInWithEmail(email, password);
     setLoading(false);
   }
 

@@ -6,7 +6,6 @@ import { useRouter } from "next/router";
 import BackendAdapter from "@/helpers/adpter/backendAdapter";
 
 const adapter = new BackendAdapter("firebase", app);
-adapter.backend?.auth.useDeviceLanguage();
 
 export default function AdminSignUp() {
   const [name, setName] = useState("");
@@ -46,14 +45,14 @@ export default function AdminSignUp() {
     setLoading(true);
 
     if (ableToSignUp(email, password, cPassword, name))
-      await adapter.backend?.signUp(
+      await adapter.signUp(
         email,
         password,
-        { shouldRedirect: true, redirect: () => router.push("dashboard") },
+        "dashboard",
         name
       );
 
-    await adapter.backend?.signUp(email, password, { shouldRedirect: true, redirect: () => router.push("/admin/campaignSelect") }, name)
+    await adapter.signUp(email, password, "/admin/campaignSelect", name)
     setLoading(false)
   }
 
